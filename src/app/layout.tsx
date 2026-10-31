@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import StoreHydrator from "../components/StoreHydrator";
 
 export const metadata: Metadata = {
   title: "PhoneMatch – Find Your Perfect Smartphone",
@@ -31,7 +32,10 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
-      <body className="bg-gray-50 text-gray-900 antialiased">{children}</body>
+      <body className="bg-gray-50 text-gray-900 antialiased">
+        <StoreHydrator />
+        {children}
+      </body>
     </html>
   );
 }
