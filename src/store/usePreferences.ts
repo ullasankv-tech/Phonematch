@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { UserPreferences } from "@/lib/types";
+import { UserPreferences } from "../lib/types";
 
 interface PreferencesState {
   preferences: UserPreferences;
