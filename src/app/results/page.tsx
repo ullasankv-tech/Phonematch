@@ -3,18 +3,24 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePreferences } from "../../store/usePreferences";
+import { useCatalog } from "../../store/useCatalog";
 import { getRecommendations } from "../../lib/scoring";
 import { generateExplanation } from "../../lib/explanations";
-import phonesData from "../../data/phones.json";
 import { Phone } from "../../lib/types";
+import { formatMoney } from "../../lib/currency";
 
 import RecommendationCard from "../../components/Results/RecommendationCard";
 import ComparisonTable from "../../components/Comparison/ComparisonTable";
 import PriorityRadar from "../../components/Comparison/PriorityRadar";
+import CurrencyPicker from "../../components/CurrencyPicker";
 
 export default function ResultsPage() {
   const router = useRouter();
   const { preferences } = usePreferences();
+  const currency = usePreferences((s) => s.currency);
+  const rates = usePreferences((s) => s.rates);
+  const phones = useCatalog((s) => s.phones);
+
   const [top, setTop] = useState<Phone | null>(null);
   const [alternatives, setAlternatives] = useState<Phone[]>([]);
   const [confidence, setConfidence] = useState<"High" | "Medium" | "Low">(
@@ -23,7 +29,7 @@ export default function ResultsPage() {
   const [reason, setReason] = useState("");
 
   useEffect(() => {
-    const result = getRecommendations(phonesData as Phone[], preferences);
+    const result = getRecommendations(phones as Phone[], preferences);
     setTop(result.top || null);
     setAlternatives(result.alternatives || []);
     setConfidence(result.confidence);
@@ -33,7 +39,7 @@ export default function ResultsPage() {
         generateExplanation(result.top, result.alternatives, preferences)
       );
     }
-  }, [preferences]);
+  }, [preferences, phones]);
 
   const phonesToCompare = top ? [top, ...alternatives] : [];
 
@@ -58,14 +64,17 @@ export default function ResultsPage() {
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       <div className="max-w-5xl mx-auto space-y-10">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-3xl font-bold">Your Best Match</h1>
-          <button
-            onClick={() => router.push("/wizard")}
-            className="text-blue-600 hover:underline text-sm"
-          >
-            ← Adjust Preferences
-          </button>
+          <div className="flex items-center gap-4">
+            <CurrencyPicker compact />
+            <button
+              onClick={() => router.push("/wizard")}
+              className="text-blue-600 hover:underline text-sm"
+            >
+              ← Adjust Preferences
+            </button>
+          </div>
         </div>
 
         {/* Top Recommendation */}
@@ -88,7 +97,7 @@ export default function ResultsPage() {
                   <p className="text-sm text-gray-500">{phone.brand}</p>
                   <h3 className="font-semibold text-lg">{phone.model}</h3>
                   <p className="text-blue-600 font-medium mt-1">
-                    ${phone.price_start}
+                    {formatMoney(phone.price_start, currency, rates)}
                   </p>
                   <p className="text-sm text-gray-600 mt-2">
                     Match score: {phone.finalScore}
@@ -117,6 +126,10 @@ export default function ResultsPage() {
             Share
           </button>
         </div>
+
+        <p className="text-xs text-gray-400">
+          Prices are indicative and converted from USD. Approximate only.
+        </p>
       </div>
     </div>
   );
