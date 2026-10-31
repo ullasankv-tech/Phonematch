@@ -1,0 +1,51 @@
+name: Publish Phone Catalogue
+
+# Regenerates public/catalog.json from src/data/phones.json and commits it.
+# Installed apps read that file when the user taps "Check for updates", so this
+# is what makes new arrivals reach phones that are already out there.
+#
+# To add phones: edit src/data/phones.json, push to main, and this publishes.
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'src/data/phones.json'
+      - 'scripts/build-catalog.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Rebuild catalogue
+        run: node scripts/build-catalog.mjs
+
+      - name: Commit if the catalogue changed
+        run: |
+          if git diff --quiet -- public/catalog.json src/data/catalog.json; then
+            echo "Catalogue unchanged - nothing to publish."
+            exit 0
+          fi
+
+          VERSION=$(node -p "require('./public/catalog.json').version")
+          COUNT=$(node -p "require('./public/catalog.json').phones.length")
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/catalog.json src/data/catalog.json
+          git commit -m "chore(catalog): publish ${COUNT} phones at revision ${VERSION}"
+          git push
+          echo "Published catalogue revision ${VERSION} with ${COUNT} phones."
