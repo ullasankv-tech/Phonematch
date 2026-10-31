@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { usePreferences } from "@/store/usePreferences";
+import { usePreferences } from "../../store/usePreferences";
 
 export default function WizardPage() {
   const router = useRouter();
