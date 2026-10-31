@@ -1,5 +1,5 @@
 {
-  "version": "12-f7da2055",
+  "version": "28-6f7cfbec",
   "updated_at": "2026-10-31",
   "base_currency": "USD",
   "phones": [
@@ -176,7 +176,7 @@
     {
       "id": "xiaomi-17-ultra",
       "brand": "Xiaomi",
-      "model": "Xiaomi 17 Ultra",
+      "model": "17 Ultra",
       "price_start": 1200,
       "scores": {
         "camera": 96,
@@ -257,7 +257,7 @@
     {
       "id": "oneplus-15",
       "brand": "OnePlus",
-      "model": "OnePlus 15",
+      "model": "15",
       "price_start": 899,
       "scores": {
         "camera": 87,
@@ -330,6 +330,439 @@
       "tags": [
         "flagship",
         "balanced"
+      ]
+    },
+    {
+      "id": "itel-a80",
+      "brand": "itel",
+      "model": "A80",
+      "price_start": 63,
+      "scores": {
+        "camera": 33,
+        "battery": 58,
+        "performance": 30,
+        "display": 40,
+        "software": 42,
+        "build": 40,
+        "value": 84
+      },
+      "strengths": [
+        "Very cheap",
+        "Long battery life"
+      ],
+      "weaknesses": [
+        "Basic camera",
+        "Slow chipset"
+      ],
+      "tags": [
+        "budget",
+        "entry-level"
+      ]
+    },
+    {
+      "id": "infinix-smart-9-hd",
+      "brand": "Infinix",
+      "model": "Smart 9 HD",
+      "price_start": 68,
+      "scores": {
+        "camera": 36,
+        "battery": 66,
+        "performance": 33,
+        "display": 44,
+        "software": 48,
+        "build": 42,
+        "value": 82
+      },
+      "strengths": [
+        "Big battery",
+        "Low price"
+      ],
+      "weaknesses": [
+        "Weak low-light camera",
+        "Ads in software"
+      ],
+      "tags": [
+        "budget",
+        "entry-level"
+      ]
+    },
+    {
+      "id": "moto-g04",
+      "brand": "Motorola",
+      "model": "Moto G04",
+      "price_start": 73,
+      "scores": {
+        "camera": 40,
+        "battery": 58,
+        "performance": 35,
+        "display": 47,
+        "software": 58,
+        "build": 46,
+        "value": 78
+      },
+      "strengths": [
+        "Clean near-stock software",
+        "Decent display for the price"
+      ],
+      "weaknesses": [
+        "Slow charging",
+        "Average camera"
+      ],
+      "tags": [
+        "budget",
+        "entry-level"
+      ]
+    },
+    {
+      "id": "redmi-a5",
+      "brand": "Xiaomi",
+      "model": "Redmi A5",
+      "price_start": 73,
+      "scores": {
+        "camera": 38,
+        "battery": 62,
+        "performance": 34,
+        "display": 45,
+        "software": 55,
+        "build": 45,
+        "value": 80
+      },
+      "strengths": [
+        "Good value",
+        "Large battery"
+      ],
+      "weaknesses": [
+        "Plastic build",
+        "Basic cameras"
+      ],
+      "tags": [
+        "budget",
+        "entry-level"
+      ]
+    },
+    {
+      "id": "tecno-spark-go-2",
+      "brand": "Tecno",
+      "model": "Spark Go 2",
+      "price_start": 73,
+      "scores": {
+        "camera": 37,
+        "battery": 64,
+        "performance": 34,
+        "display": 45,
+        "software": 47,
+        "build": 43,
+        "value": 80
+      },
+      "strengths": [
+        "Long battery life",
+        "Large screen"
+      ],
+      "weaknesses": [
+        "Bloatware",
+        "Modest performance"
+      ],
+      "tags": [
+        "budget",
+        "entry-level"
+      ]
+    },
+    {
+      "id": "samsung-galaxy-m05",
+      "brand": "Samsung",
+      "model": "Galaxy M05",
+      "price_start": 79,
+      "scores": {
+        "camera": 42,
+        "battery": 65,
+        "performance": 36,
+        "display": 50,
+        "software": 62,
+        "build": 50,
+        "value": 76
+      },
+      "strengths": [
+        "Long software support for the price",
+        "Reliable battery"
+      ],
+      "weaknesses": [
+        "Slow charging",
+        "Modest chipset"
+      ],
+      "tags": [
+        "budget",
+        "entry-level",
+        "longevity"
+      ]
+    },
+    {
+      "id": "poco-c61",
+      "brand": "Xiaomi",
+      "model": "Poco C61",
+      "price_start": 79,
+      "scores": {
+        "camera": 39,
+        "battery": 60,
+        "performance": 37,
+        "display": 46,
+        "software": 54,
+        "build": 44,
+        "value": 79
+      },
+      "strengths": [
+        "Good price-to-spec ratio",
+        "Clean design"
+      ],
+      "weaknesses": [
+        "Average camera",
+        "Plastic body"
+      ],
+      "tags": [
+        "budget",
+        "entry-level"
+      ]
+    },
+    {
+      "id": "realme-c61",
+      "brand": "realme",
+      "model": "C61",
+      "price_start": 89,
+      "scores": {
+        "camera": 40,
+        "battery": 60,
+        "performance": 38,
+        "display": 48,
+        "software": 52,
+        "build": 46,
+        "value": 78
+      },
+      "strengths": [
+        "Slim build",
+        "Fast enough for daily use"
+      ],
+      "weaknesses": [
+        "Weak night photos",
+        "Limited update promise"
+      ],
+      "tags": [
+        "budget",
+        "entry-level"
+      ]
+    },
+    {
+      "id": "lava-blaze-3",
+      "brand": "Lava",
+      "model": "Blaze 3",
+      "price_start": 100,
+      "scores": {
+        "camera": 41,
+        "battery": 55,
+        "performance": 40,
+        "display": 52,
+        "software": 50,
+        "build": 48,
+        "value": 72
+      },
+      "strengths": [
+        "Clean software",
+        "Comfortable size"
+      ],
+      "weaknesses": [
+        "Small battery",
+        "Limited service network"
+      ],
+      "tags": [
+        "budget",
+        "entry-level"
+      ]
+    },
+    {
+      "id": "hmd-crest",
+      "brand": "HMD",
+      "model": "Crest",
+      "price_start": 105,
+      "scores": {
+        "camera": 45,
+        "battery": 60,
+        "performance": 42,
+        "display": 55,
+        "software": 60,
+        "build": 52,
+        "value": 70
+      },
+      "strengths": [
+        "Repairable design",
+        "Near-stock Android"
+      ],
+      "weaknesses": [
+        "Modest performance",
+        "Average battery"
+      ],
+      "tags": [
+        "budget",
+        "entry-level"
+      ]
+    },
+    {
+      "id": "realme-p1-5g",
+      "brand": "realme",
+      "model": "P1 5G",
+      "price_start": 168,
+      "scores": {
+        "camera": 62,
+        "battery": 70,
+        "performance": 66,
+        "display": 66,
+        "software": 64,
+        "build": 62,
+        "value": 76
+      },
+      "strengths": [
+        "5G at a low price",
+        "Fast charging"
+      ],
+      "weaknesses": [
+        "Average low-light camera"
+      ],
+      "tags": [
+        "mid-range",
+        "5g"
+      ]
+    },
+    {
+      "id": "samsung-galaxy-m35-5g",
+      "brand": "Samsung",
+      "model": "Galaxy M35 5G",
+      "price_start": 178,
+      "scores": {
+        "camera": 64,
+        "battery": 76,
+        "performance": 63,
+        "display": 68,
+        "software": 74,
+        "build": 66,
+        "value": 72
+      },
+      "strengths": [
+        "Long software support",
+        "Big battery"
+      ],
+      "weaknesses": [
+        "Heavy",
+        "Average charging speed"
+      ],
+      "tags": [
+        "mid-range",
+        "5g",
+        "longevity"
+      ]
+    },
+    {
+      "id": "moto-g85-5g",
+      "brand": "Motorola",
+      "model": "Moto G85 5G",
+      "price_start": 189,
+      "scores": {
+        "camera": 66,
+        "battery": 68,
+        "performance": 62,
+        "display": 72,
+        "software": 70,
+        "build": 64,
+        "value": 74
+      },
+      "strengths": [
+        "Curved pOLED display",
+        "Clean software"
+      ],
+      "weaknesses": [
+        "Chipset trails rivals"
+      ],
+      "tags": [
+        "mid-range",
+        "5g"
+      ]
+    },
+    {
+      "id": "redmi-note-14-5g",
+      "brand": "Xiaomi",
+      "model": "Redmi Note 14 5G",
+      "price_start": 199,
+      "scores": {
+        "camera": 68,
+        "battery": 72,
+        "performance": 65,
+        "display": 70,
+        "software": 68,
+        "build": 65,
+        "value": 78
+      },
+      "strengths": [
+        "Balanced all-rounder",
+        "Good main camera"
+      ],
+      "weaknesses": [
+        "Bloatware",
+        "Average ultrawide"
+      ],
+      "tags": [
+        "mid-range",
+        "5g"
+      ]
+    },
+    {
+      "id": "iqoo-z9s-5g",
+      "brand": "iQOO",
+      "model": "Z9s 5G",
+      "price_start": 210,
+      "scores": {
+        "camera": 66,
+        "battery": 78,
+        "performance": 80,
+        "display": 70,
+        "software": 68,
+        "build": 66,
+        "value": 76
+      },
+      "strengths": [
+        "Strong performance for the price",
+        "Big battery"
+      ],
+      "weaknesses": [
+        "Plastic frame"
+      ],
+      "tags": [
+        "mid-range",
+        "5g",
+        "performance"
+      ]
+    },
+    {
+      "id": "poco-x7-5g",
+      "brand": "Xiaomi",
+      "model": "Poco X7 5G",
+      "price_start": 231,
+      "scores": {
+        "camera": 72,
+        "battery": 74,
+        "performance": 78,
+        "display": 74,
+        "software": 66,
+        "build": 68,
+        "value": 75
+      },
+      "strengths": [
+        "Fast chipset",
+        "Bright display"
+      ],
+      "weaknesses": [
+        "Bloatware",
+        "Average speakers"
+      ],
+      "tags": [
+        "mid-range",
+        "5g",
+        "performance"
       ]
     }
   ]
