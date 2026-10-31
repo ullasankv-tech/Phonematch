@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "catalog": "node scripts/build-catalog.mjs",
+    "prebuild": "node scripts/build-catalog.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
