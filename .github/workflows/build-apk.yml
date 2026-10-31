@@ -70,7 +70,20 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
-          packages: 'platform-tools platforms;android-34 build-tools;34.0.0'
+          packages: 'platform-tools platforms;android-34 build-tools;34.0.0
+      
+      - name: Install the committed signing key
+        # Android only replaces an installed app when the new APK is signed with
+        # the same key. A fresh runner generates a fresh ~/.android/debug.keystore,
+        # so without this step every build has a different signature and the
+        # device demands an uninstall first.
+        run: |
+          mkdir -p "$HOME/.android"
+          cp android-signing/debug.keystore "$HOME/.android/debug.keystore"
+          keytool -list -keystore "$HOME/.android/debug.keystore" \
+            -storepass android -alias androiddebugkey > /dev/null \
+            || { echo "::error::android-signing/debug.keystore is missing or unreadable."; exit 1; }
+          echo "Signing key installed - all builds share one signature."
 
       - name: Add Android platform and sync
         run: |
