@@ -49,3 +49,4 @@ jobs:
           git commit -m "chore(catalog): publish ${COUNT} phones at revision ${VERSION}"
           git push
           echo "Published catalogue revision ${VERSION} with ${COUNT} phones."
+          
