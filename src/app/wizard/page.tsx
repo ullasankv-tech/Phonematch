@@ -3,11 +3,23 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePreferences } from "../../store/usePreferences";
+import CurrencyPicker from "../../components/CurrencyPicker";
+import {
+  budgetBounds,
+  formatAmount,
+  formatMoney,
+  fromUsd,
+  niceStep,
+  snapToStep,
+  toUsd,
+} from "../../lib/currency";
 
 export default function WizardPage() {
   const router = useRouter();
   const { preferences, setBudget, setPriority, toggleDealBreaker } =
     usePreferences();
+  const currency = usePreferences((s) => s.currency);
+  const rates = usePreferences((s) => s.rates);
   const [step, setStep] = useState(1);
 
   const handleNext = () => {
@@ -19,9 +31,25 @@ export default function WizardPage() {
     if (step > 1) setStep(step - 1);
   };
 
+  // The budget is stored in USD; the slider works in the display currency so
+  // the numbers the user drags through are round in their own currency.
+  const bounds = budgetBounds(currency, rates);
+  const sliderStep = niceStep(bounds.max - bounds.min);
+  const sliderMin = snapToStep(bounds.min, sliderStep);
+  const sliderMax = snapToStep(bounds.max, sliderStep);
+  const sliderValue = snapToStep(
+    fromUsd(preferences.budget_max, currency, rates),
+    sliderStep
+  );
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-lg w-full max-w-lg p-8">
+        <div className="flex justify-between items-center mb-6">
+          <span className="text-sm text-gray-500">Step {step} of 3</span>
+          <CurrencyPicker compact />
+        </div>
+
         {/* Progress */}
         <div className="flex gap-2 mb-8">
           {[1, 2, 3].map((s) => (
@@ -46,23 +74,30 @@ export default function WizardPage() {
 
             <div className="text-center mb-6">
               <span className="text-4xl font-bold text-blue-600">
-                ${preferences.budget_max}
+                {formatAmount(sliderValue, currency)}
               </span>
+              {currency !== "USD" && (
+                <p className="text-xs text-gray-400 mt-1">
+                  ≈ {formatMoney(preferences.budget_max, "USD", rates)}
+                </p>
+              )}
             </div>
 
             <input
               type="range"
-              min={600}
-              max={2000}
-              step={50}
-              value={preferences.budget_max}
-              onChange={(e) => setBudget(Number(e.target.value))}
+              min={sliderMin}
+              max={sliderMax}
+              step={sliderStep}
+              value={sliderValue}
+              onChange={(e) =>
+                setBudget(toUsd(Number(e.target.value), currency, rates))
+              }
               className="w-full mb-8 accent-blue-600"
             />
 
             <div className="flex justify-between text-sm text-gray-500 mb-8">
-              <span>$600</span>
-              <span>$2000</span>
+              <span>{formatAmount(sliderMin, currency)}</span>
+              <span>{formatAmount(sliderMax, currency)}</span>
             </div>
           </div>
         )}
