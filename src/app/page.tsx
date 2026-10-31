@@ -28,6 +28,12 @@ export default function HomePage() {
           Start Matching
         </button>
         <p className="mt-4 text-sm text-gray-500">Takes less than 60 seconds</p>
+        <button
+          onClick={() => router.push("/brands")}
+          className="mt-8 w-full border border-gray-300 bg-white text-gray-800 px-8 py-3.5 rounded-xl font-semibold hover:bg-gray-50 transition"
+        >
+          Browse all brands
+        </button>
       </div>
 
       <CatalogUpdater />
