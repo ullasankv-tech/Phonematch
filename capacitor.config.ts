@@ -12,5 +12,4 @@ const config: CapacitorConfig = {
     backgroundColor: '#f9fafb'
   }
 };
-
 export default config;
