@@ -1,5 +1,37 @@
 import { Phone, UserPreferences } from "./types";
 
+/**
+ * A preferred brand is a nudge, not a filter: it can lift a phone above a
+ * close rival but cannot drag an unsuitable phone to the top on its own.
+ */
+export const PREFERRED_BRAND_BOOST = 6;
+
+/**
+ * The weighted score for one phone, on the same 0-100 scale as the attribute
+ * scores. Shared by the results page and the phone detail page so the number a
+ * user sees in the list is the number they see when they open the phone.
+ */
+export function weightedScore(phone: Phone, prefs: UserPreferences): number {
+  const p = prefs.priorities;
+  const s = phone.scores;
+
+  const raw =
+    (s.camera * p.camera +
+      s.battery * p.battery +
+      s.performance * p.performance +
+      s.display * p.display +
+      s.software * p.software +
+      s.build * p.build +
+      s.value * p.value) /
+    100;
+
+  const preferred = (prefs.preferred_brands || []).includes(phone.brand)
+    ? PREFERRED_BRAND_BOOST
+    : 0;
+
+  return Math.min(100, Math.round((raw + preferred) * 10) / 10);
+}
+
 export function getRecommendations(phones: Phone[], prefs: UserPreferences) {
   // 1. Filter by budget and deal-breakers
   let candidates = phones.filter((phone) => {
@@ -25,23 +57,11 @@ export function getRecommendations(phones: Phone[], prefs: UserPreferences) {
     return true;
   });
 
-  // 2. Calculate weighted score
-  candidates = candidates.map((phone) => {
-    const p = prefs.priorities;
-    const s = phone.scores;
-
-    const score =
-      (s.camera * p.camera +
-        s.battery * p.battery +
-        s.performance * p.performance +
-        s.display * p.display +
-        s.software * p.software +
-        s.build * p.build +
-        s.value * p.value) /
-      100;
-
-    return { ...phone, finalScore: Math.round(score * 10) / 10 };
-  });
+  // 2. Score
+  candidates = candidates.map((phone) => ({
+    ...phone,
+    finalScore: weightedScore(phone, prefs),
+  }));
 
   // 3. Sort
   candidates.sort((a, b) => (b.finalScore ?? 0) - (a.finalScore ?? 0));
