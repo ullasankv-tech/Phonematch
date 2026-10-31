@@ -1,4 +1,8 @@
+"use client";
+
 import { Phone } from "../../lib/types";
+import { formatMoney } from "../../lib/currency";
+import { usePreferences } from "../../store/usePreferences";
 
 interface Props {
   phone: Phone;
@@ -11,6 +15,9 @@ export default function RecommendationCard({
   confidence,
   reason,
 }: Props) {
+  const currency = usePreferences((s) => s.currency);
+  const rates = usePreferences((s) => s.rates);
+
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 border border-blue-100">
       <div className="flex justify-between items-start mb-3">
@@ -26,7 +33,9 @@ export default function RecommendationCard({
       <p className="text-gray-700 mb-4">{reason}</p>
 
       <div className="flex justify-between items-center">
-        <span className="text-xl font-semibold">${phone.price_start}</span>
+        <span className="text-xl font-semibold">
+          {formatMoney(phone.price_start, currency, rates)}
+        </span>
         <span className="text-sm text-gray-500">
           Match score: {phone.finalScore}
         </span>
