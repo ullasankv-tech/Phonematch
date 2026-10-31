@@ -1,4 +1,8 @@
+"use client";
+
 import { Phone } from "../../lib/types";
+import { formatMoney } from "../../lib/currency";
+import { usePreferences } from "../../store/usePreferences";
 
 interface Props {
   phones: Phone[];
@@ -15,6 +19,9 @@ const attributes = [
 ] as const;
 
 export default function ComparisonTable({ phones }: Props) {
+  const currency = usePreferences((s) => s.currency);
+  const rates = usePreferences((s) => s.rates);
+
   if (phones.length === 0) return null;
 
   const bestScores: Record<string, number> = {};
@@ -35,7 +42,7 @@ export default function ComparisonTable({ phones }: Props) {
                 <div className="text-xs text-gray-500">{phone.brand}</div>
                 <div>{phone.model}</div>
                 <div className="text-xs font-normal text-gray-500 mt-1">
-                  ${phone.price_start}
+                  {formatMoney(phone.price_start, currency, rates)}
                 </div>
               </th>
             ))}
