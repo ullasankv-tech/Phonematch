@@ -109,7 +109,7 @@ export function formatAmount(
  */
 export const BUDGET_MIN_INR = 10000;
 export const BUDGET_MIN_USD = BUDGET_MIN_INR / FALLBACK_RATES.INR;
-
+export const BUDGET_MAX_USD = 2000;
 export function budgetBounds(code: CurrencyCode, rates?: RateTable) {
   return {
     min: fromUsd(BUDGET_MIN_USD, code, rates),
