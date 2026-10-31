@@ -1,4 +1,4 @@
-import { Phone } from "@/lib/types";
+import { Phone } from "../../lib/types";
 
 interface Props {
   phones: Phone[];
