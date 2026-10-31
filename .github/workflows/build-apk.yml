@@ -1,14 +1,36 @@
 name: Build Android APK
 
+# Drop-in replacement for .github/workflows/build-apk.yml
+#
+# What changed vs. the original, and why:
+#  1. Removed the "Install Capacitor" step. Capacitor is already declared in
+#     package.json, so `npm install` covers it. The old step also ran
+#     `npx cap init ... || true`, which silently swallowed errors - and could
+#     rewrite capacitor.config.ts, discarding appId / androidScheme settings.
+#  2. Java and the Android SDK are now set up BEFORE the Capacitor steps, so
+#     every Gradle invocation uses the same JDK 17.
+#  3. Dropped the obsolete `tools` package from the SDK list (`sdkmanager`
+#     reports "Failed to find package 'tools'" for it).
+#  4. Added an explicit check that out/index.html exists, so a broken Next.js
+#     export fails with a readable message instead of a confusing Gradle error
+#     much later in the run.
+#  5. Added Gradle caching via gradle/actions/setup-gradle, which cuts several
+#     minutes off every run after the first.
+#  6. Removed `--info` from the Gradle call (it buries the real error in
+#     thousands of lines) and kept `--stacktrace`.
+#  7. `if-no-files-found: error` on the upload step, so the job can no longer
+#     finish green with no APK attached.
+#  8. Raised the job timeout to 40 minutes for the cold first build.
+
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
 
     steps:
       - name: Checkout repository
@@ -20,30 +42,22 @@ jobs:
           node-version: '20'
 
       - name: Install npm dependencies
-        run: |
-          npm install
-          echo "Dependencies installed successfully"
+        run: npm install --no-audit --no-fund
 
       - name: Build Next.js (static export)
+        run: npm run build
+
+      - name: Verify static export exists
         run: |
-          npm run build
-          echo "Next.js build completed"
+          if [ ! -f out/index.html ]; then
+            echo "::error::out/index.html is missing - the Next.js static export did not run."
+            echo "Check that next.config.js contains: output: 'export'"
+            exit 1
+          fi
+          echo "Static export OK:"
           ls -la out/
 
-      - name: Install Capacitor
-        run: |
-          npm install @capacitor/core @capacitor/cli @capacitor/android --save
-          npx cap init "PhoneMatch" "com.phonematch.app" --web-dir out || true
-          echo "Capacitor packages ready"
-
-      - name: Add Android platform
-        run: |
-          npx cap add android
-          npx cap sync android
-          echo "Android platform added and synced"
-          ls -la android/
-
-      - name: Setup Java
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -52,24 +66,35 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
-          packages: 'tools platform-tools platforms;android-34 build-tools;34.0.0'
+          packages: 'platform-tools platforms;android-34 build-tools;34.0.0'
 
-      - name: Accept Android licenses
+      - name: Add Android platform and sync
         run: |
-          yes | sdkmanager --licenses || true
+          if [ ! -d android ]; then
+            npx cap add android
+          fi
+          npx cap sync android
+          chmod +x android/gradlew
+          echo "Android platform ready"
+          ls -la android/
 
-      - name: Build Debug APK with Gradle
+      - name: Setup Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build Debug APK
         working-directory: android
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Confirm APK was produced
         run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace --info --no-daemon
-          echo "Gradle build finished"
-          find . -name "*.apk" || true
+          ls -la android/app/build/outputs/apk/debug/
+          test -f android/app/build/outputs/apk/debug/app-debug.apk \
+            || { echo "::error::Gradle finished but app-debug.apk was not produced."; exit 1; }
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: PhoneMatch-APK
-          path: android/app/build/outputs/apk/debug/*.apk
-          if-no-files-found: warn
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
           retention-days: 10
