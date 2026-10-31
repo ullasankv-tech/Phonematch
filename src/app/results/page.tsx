@@ -9,9 +9,9 @@ import { generateExplanation } from "../../lib/explanations";
 import { Phone } from "../../lib/types";
 import { formatMoney } from "../../lib/currency";
 
-import RecommendationCard from "../../components/Results/RecommendationCard";
-import ComparisonTable from "../../components/Comparison/ComparisonTable";
-import PriorityRadar from "../../components/Comparison/PriorityRadar";
+import RecommendationCard from "../../components/results/RecommendationCard";
+import ComparisonTable from "../../components/comparison/ComparisonTable";
+import PriorityRadar from "../../components/comparison/PriorityRadar";
 import CurrencyPicker from "../../components/CurrencyPicker";
 
 export default function ResultsPage() {
