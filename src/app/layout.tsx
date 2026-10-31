@@ -33,8 +33,21 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
       </head>
       <body className="bg-gray-50 text-gray-900 antialiased">
-        <StoreHydrator />
+        
+                <StoreHydrator />
         {children}
+        <footer className="mt-auto py-8 text-center text-sm text-gray-500">
+          <p>
+            PhoneMatch ·{" "}
+            <a
+              href="mailto:ullasankv@gmail.com"
+              className="text-blue-600 hover:underline"
+            >
+              ullasankv@gmail.com
+            </a>
+          </p>
+        </footer>
+        
       </body>
     </html>
   );
