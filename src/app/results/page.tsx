@@ -138,8 +138,12 @@ export default function ResultsPage() {
           <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition">
             Save Recommendation
           </button>
-          <button className="border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition">
-            Share
+          
+          <button
+            onClick={shareToWhatsApp}
+            className="border border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition"
+          >
+            Share on WhatsApp
           </button>
         </div>
 
