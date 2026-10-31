@@ -101,9 +101,14 @@ export function formatAmount(
   }
 }
 
-/** Budget slider bounds in USD, converted to the display currency. */
-export const BUDGET_MIN_USD = 300;
-export const BUDGET_MAX_USD = 2000;
+/**
+ * Budget slider bounds, converted to the display currency.
+ *
+ * The floor is expressed in INR so it reads as a round number in the app's
+ * default currency (10,000) and is then converted to the USD the dataset uses.
+ */
+export const BUDGET_MIN_INR = 10000;
+export const BUDGET_MIN_USD = BUDGET_MIN_INR / FALLBACK_RATES.INR;
 
 export function budgetBounds(code: CurrencyCode, rates?: RateTable) {
   return {
