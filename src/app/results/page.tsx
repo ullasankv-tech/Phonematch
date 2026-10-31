@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { usePreferences } from "@/store/usePreferences";
-import { getRecommendations } from "@/lib/scoring";
-import { generateExplanation } from "@/lib/explanations";
-import phonesData from "@/data/phones.json";
-import { Phone } from "@/lib/types";
+import { usePreferences } from "../../store/usePreferences";
+import { getRecommendations } from "../../lib/scoring";
+import { generateExplanation } from "../../lib/explanations";
+import phonesData from "../../data/phones.json";
+import { Phone } from "../../lib/types";
 
-import RecommendationCard from "@/components/Results/RecommendationCard";
-import ComparisonTable from "@/components/Comparison/ComparisonTable";
-import PriorityRadar from "@/components/Comparison/PriorityRadar";
+import RecommendationCard from "../../components/Results/RecommendationCard";
+import ComparisonTable from "../../components/Comparison/ComparisonTable";
+import PriorityRadar from "../../components/Comparison/PriorityRadar";
 
 export default function ResultsPage() {
   const router = useRouter();
