@@ -42,7 +42,23 @@ export default function ResultsPage() {
   }, [preferences, phones]);
 
   const phonesToCompare = top ? [top, ...alternatives] : [];
+  
 
+  const shareToWhatsApp = () => {
+    if (!top) return;
+    const price = formatMoney(top.price_start, currency, rates);
+    const score =
+      typeof top.finalScore === "number" ? ` (match ${top.finalScore}/100)` : "";
+    const text =
+      `PhoneMatch picked the ${top.brand} ${top.model} for me${score}, from ${price}.` +
+      (reason ? `\n\n${reason}` : "") +
+      "\n\nFind your best phone match with PhoneMatch.";
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(text)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
   if (!top) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-4">
